@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego interactivo</title>
-  <meta http-equiv="refresh" content="0; url=./taller3/">
+  <title>Aventura de monedas</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      background: #2d2d2d;
+    }
+  </style>
 </head>
 <body>
-  <p>
-    Cargando el juego...
-    <a href="./taller3/">Abrir el juego</a>
-  </p>
-  <script>
-    window.location.replace('./taller3/');
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+  <script src="./taller3/game.js?v=20261025-22"></script>
 </body>
 </html>
