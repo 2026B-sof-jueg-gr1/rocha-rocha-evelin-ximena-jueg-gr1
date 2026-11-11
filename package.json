@@ -1,0 +1,17 @@
+{
+  "name": "aventura-tesoros-mama-negra",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Videojuego 2D de plataformas creado con Phaser 3.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0"
+  }
+}
