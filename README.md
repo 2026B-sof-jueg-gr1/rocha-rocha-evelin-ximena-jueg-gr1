@@ -1,9 +1,31 @@
-# Aventura de Monedas
+# Aventura de Mario
 
 Videojuego de plataformas retro creado con Phaser 3. Mario debe recorrer el nivel,
 saltar obstáculos, recolectar 15 monedas y desbloquear la estrella final.
 
-## Entrega
+## Misión 1: El alma del juego
+
+**Hook:** Mario debe reunir 15 monedas doradas y desbloquear la estrella final
+antes de que el tiempo se agote, dominando saltos y plataformas en un reino
+lleno de caminos secretos.
+
+**Resonancia ludonarrativa:** cada salto, movimiento y moneda representa el
+avance del héroe. La coordinación y los reflejos no son actividades separadas
+de la historia: son las habilidades que permiten recuperar la estrella y salvar
+el reino.
+
+## Misión 2: Reglas del mundo real
+
+**Clasificación E (Todo Público):** apto para cualquier persona con ganas de
+jugar. Contiene saltos pixelados, plataformas y recolección de monedas, sin
+violencia gráfica ni contenido sensible.
+
+El **Muro de honor** de la landing reconoce que el proyecto usa código propio,
+Phaser 3 bajo licencia MIT y recursos visuales creados para este proyecto.
+Antes de añadir música, efectos o arte externo, debe registrarse su autor,
+fuente y licencia (CC0, Creative Commons compatible o licencia comercial).
+
+## Misión 3: Landing y GitHub Pages
 
 ## Desarrollo con Node.js
 
@@ -38,12 +60,48 @@ ejecutar `npm ci` antes de construir.
 
 1. Sube los cambios a la rama `main`.
 2. En GitHub abre **Settings > Pages**.
-3. En **Build and deployment**, selecciona **Deploy from a branch**.
-4. Selecciona la rama `main` y la carpeta `/ (root)`, y pulsa **Save**.
-5. Espera la publicación y prueba el enlace desde una ventana privada.
+3. En **Build and deployment**, selecciona **GitHub Actions** como fuente.
+4. Espera a que termine el workflow **Deploy landing and game to GitHub Pages**.
+5. Abre la URL mostrada en el environment `github-pages` y prueba el botón
+   **JUGAR** desde una ventana privada.
+
+La URL esperada para este repositorio es:
+
+```text
+https://2026B-sof-jueg-gr1.github.io/rocha-rocha-evelin-ximena-jueg-gr1/
+```
+
+El workflow construye `dist/` y publica tanto la landing como
+`dist/taller3/index.html`, por lo que las rutas relativas de imágenes y del
+juego se conservan.
+
+## Misión 4: Plataforma indie
+
+La opción recomendada es **itch.io**, configurando el proyecto como **HTML5**.
+Se debe crear una cuenta gratuita del estudio, crear una página del juego y
+subir el contenido generado en `dist/taller3/` como un ZIP con `index.html` en
+la raíz. En itch.io se debe activar **This file will be played in the browser**.
+
+Como alternativa, la landing publicada en GitHub Pages funciona como escaparate
+principal y enlaza directamente al juego Phaser.
+
+## CI/CD opcional para itch.io
+
+GitHub Pages ya queda automatizado con `.github/workflows/deploy-pages.yml`.
+Para automatizar itch.io después de crear la cuenta:
+
+1. Genera una API key en itch.io.
+2. En GitHub crea los secrets `BUTLER_API_KEY` y `ITCH_GAME`
+   (`usuario/proyecto`).
+3. Añade un workflow de Butler que publique `dist/` después de `npm run build`.
+
+La API key nunca debe escribirse en el repositorio ni en el código.
 
 ## Entrega en Teams
 
-Comparte el enlace de GitHub Pages y el enlace de la página de itch.io.
-Si se configura automatización posterior con GitHub Actions y Butler, adjunta
-también una captura del workflow ejecutado correctamente.
+Comparte:
+
+1. El enlace de GitHub Pages.
+2. El enlace de la página de itch.io.
+3. Una captura del workflow de GitHub Pages ejecutado correctamente.
+4. Si se configura Butler, una captura adicional de su ejecución exitosa.
