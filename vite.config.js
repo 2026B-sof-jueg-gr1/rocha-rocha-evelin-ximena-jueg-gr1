@@ -4,6 +4,7 @@ export default defineConfig({
   base: './',
   build: {
     outDir: 'dist',
+    chunkSizeWarningLimit: 1600, // Phaser ocupa ~1,5 MB por sí solo
     emptyOutDir: true,
     rollupOptions: {
       input: {

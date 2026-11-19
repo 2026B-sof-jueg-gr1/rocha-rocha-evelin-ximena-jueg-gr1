@@ -1,31 +1,74 @@
-# Aventura de Mario
+# Los Guardianes del Inti: El Derrotero Perdido
 
-Videojuego de plataformas retro creado con Phaser 3. Mario debe recorrer el nivel,
-saltar obstáculos, recolectar 15 monedas y desbloquear la estrella final.
+Videojuego de plataformas creado con Phaser 3, inspirado en la leyenda del
+tesoro de los Llanganates. La narrativa completa (personajes, ruta, actos y
+justificación de cada elemento) está en [NARRATIVA.md](./NARRATIVA.md).
 
 ## Misión 1: El alma del juego
 
-**Hook:** Mario debe reunir 15 monedas doradas y desbloquear la estrella final
-antes de que el tiempo se agote, dominando saltos y plataformas en un reino
-lleno de caminos secretos.
+**Hook:** Cuando la banda del Rey Brumario roba las reliquias sagradas del
+Ecuador, Roco, un mecánico quiteño, y Alba, la última heredera de los
+Guardianes del Inti, deben reunir aliados en cada región, descifrar el
+derrotero secreto de Rumiñahui y recuperar las cuatro llaves del Disco Solar
+antes de que el sol del equinoccio revele el tesoro de los Llanganates a quien
+solo quiere venderlo.
 
-**Resonancia ludonarrativa:** cada salto, movimiento y moneda representa el
-avance del héroe. La coordinación y los reflejos no son actividades separadas
-de la historia: son las habilidades que permiten recuperar la estrella y salvar
-el reino.
+**Resonancia ludonarrativa:** recoger los 15 fragmentos del derrotero es
+reconstruir el mapa robado, y la cuenta regresiva representa la carrera hacia
+el equinoccio. Cada aliado (Brin, Lino, Milo y Nuba) aporta el conocimiento de
+su región, que el equipo necesita para avanzar. El conocimiento no es un
+examen: es la herramienta para ganar.
+
+**Jugable ahora: los cinco capítulos.** Al pulsar JUGAR se abre el **mapa del
+Ecuador** (Costa, Sierra y Amazonía) con la ruta Quito → Latacunga → Cuenca →
+Tena → Mitad del Mundo → Llanganates. Cada ciudad es un nivel con su aliado y
+su habilidad; la pista grabada en cada llave abre el siguiente. Cada uno de
+los 75 fragmentos muestra un dato real de su región: aprender es literalmente
+reconstruir el mapa. La trazabilidad completa leyenda → juego está en
+[NARRATIVA.md](./NARRATIVA.md#8-estado-actual-del-desarrollo).
+
+### Estructura del código
+
+```text
+taller3/
+├── index.html
+└── src/
+    ├── main.js               configuración de Phaser y lista de escenas
+    ├── datos/niveles.js      los 5 capítulos: robo, aliado, habilidad, pista, datos y plataformas
+    ├── datos/progreso.js     llaves, estrellas y desbloqueos (localStorage)
+    ├── escenas/              Inicio, Mapa, Carga, Nivel y Resultado
+    ├── escenarios.js         fondos y texturas de cada región
+    ├── personajes.js         personajes dibujados con código
+    └── ui.js                 estilos, botones e iconos
+```
+
+En `npm run dev` se puede saltar directo a una escena para probarla:
+`?escena=Mapa&progreso=3`, `?escena=Nivel&nivel=2` o `?escena=Carga&nivel=4`.
 
 ## Misión 2: Reglas del mundo real
 
-**Clasificación E (Todo Público):** apto para cualquier persona con ganas de
-jugar. Contiene saltos pixelados, plataformas y recolección de monedas, sin
-violencia gráfica ni contenido sensible.
+**Clasificación E (ESRB) / PEGI 3:** apto para cualquier explorador o
+exploradora con ganas de saltar. Contiene villanos con sombrero que huyen a toda
+velocidad y una cantidad peligrosa de datos curiosos sobre el Ecuador. Sin
+violencia gráfica.
 
-El **Muro de honor** de la landing reconoce que el proyecto usa código propio,
-Phaser 3 bajo licencia MIT y recursos visuales creados para este proyecto.
-Antes de añadir música, efectos o arte externo, debe registrarse su autor,
-fuente y licencia (CC0, Creative Commons compatible o licencia comercial).
+La clasificación es creativa y autoevaluada (no es una certificación oficial
+de ESRB/PEGI; para tiendas se usa el cuestionario gratuito de IARC).
+
+El **Muro de honor** de la landing acredita el código y los gráficos del juego
+(propios), los retratos generados con IA (declarando que los de Roco, Alba y
+Milo son bocetos provisionales con un estilo inspirado en personajes de
+Nintendo), Phaser 3 y Vite (MIT) y las tipografías Cinzel y Lora (SIL OFL 1.1). Antes de
+añadir música, efectos o arte externo, debe registrarse su autor, fuente y
+licencia (CC0, Creative Commons compatible o licencia comercial).
 
 ## Misión 3: Landing y GitHub Pages
+
+La landing ([index.html](./index.html)) tiene la estética de un derrotero de
+explorador. Incluye el logline, la leyenda, la ruta de ciudades, los
+personajes, las características, la sección legal, la plataforma indie elegida,
+el flujo de CI/CD y un botón **JUGAR** que abre el juego en
+[taller3/index.html](./taller3/index.html).
 
 ## Desarrollo con Node.js
 
@@ -77,25 +120,58 @@ juego se conservan.
 
 ## Misión 4: Plataforma indie
 
-La opción recomendada es **itch.io**, configurando el proyecto como **HTML5**.
-Se debe crear una cuenta gratuita del estudio, crear una página del juego y
-subir el contenido generado en `dist/taller3/` como un ZIP con `index.html` en
-la raíz. En itch.io se debe activar **This file will be played in the browser**.
+La plataforma elegida es **itch.io**, con el proyecto configurado como **HTML5**.
 
-Como alternativa, la landing publicada en GitHub Pages funciona como escaparate
-principal y enlaza directamente al juego Phaser.
+- **Estudio:** [EveRocha11](https://everocha11.itch.io/)
+- **Página del juego:** <https://everocha11.itch.io/los-guardianes-del-inti>
 
-## CI/CD opcional para itch.io
+1. Cuenta del estudio creada: `EveRocha11`.
+2. Ve a **Dashboard > Create new project**:
+   - **Title:** Los Guardianes del Inti.
+   - **Project URL:** `los-guardianes-del-inti` (debe coincidir con `ITCH_GAME`).
+   - **Kind of project:** HTML.
+   - **Pricing:** No payments (o "donaciones").
+   - **Visibility:** Draft mientras pruebas y Public al terminar.
+3. Para la primera subida manual (opcional si usas el CI/CD):
+   ```bash
+   npm run build:itch
+   ```
+   Comprime el **contenido** de `dist-itch/` (no la carpeta) en un ZIP, súbelo y
+   marca **This file will be played in the browser**. Tamaño de viewport
+   recomendado: 800 × 600.
 
-GitHub Pages ya queda automatizado con `.github/workflows/deploy-pages.yml`.
-Para automatizar itch.io después de crear la cuenta:
+> `dist/taller3/` **no sirve** para itch.io: su `index.html` carga
+> `../assets/…`, que queda fuera del ZIP. Por eso existe `build:itch`, que
+> genera el juego con `index.html` y `assets/` juntos en la raíz.
 
-1. Genera una API key en itch.io.
-2. En GitHub crea los secrets `BUTLER_API_KEY` y `ITCH_GAME`
-   (`usuario/proyecto`).
-3. Añade un workflow de Butler que publique `dist/` después de `npm run build`.
+✅ Página publicada y enlazada desde el botón `#itch-link` de la landing
+([index.html](./index.html)).
 
-La API key nunca debe escribirse en el repositorio ni en el código.
+## Misión legendaria: CI/CD a itch.io con Butler
+
+El workflow [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)
+tiene tres jobs que se ejecutan con cada push a `main`:
+
+| Job | Qué hace |
+|---|---|
+| `build` | `npm ci` + `npm run build` y sube `dist/` como artefacto de Pages |
+| `deploy` | Publica la landing y el juego en GitHub Pages |
+| `itch` | `npm run build:itch`, instala Butler (CLI oficial) y ejecuta `butler push dist-itch usuario/juego:html5` |
+
+Para activar el job `itch`:
+
+1. En itch.io genera una API key en **Settings > API keys**.
+2. En GitHub abre **Settings > Secrets and variables > Actions**:
+   - Pestaña **Secrets**: crea `BUTLER_API_KEY` con la API key.
+   - Pestaña **Variables**: crea `ITCH_GAME` con el valor
+     `everocha11/los-guardianes-del-inti`.
+3. Haz un push a `main` o ejecuta el workflow a mano desde **Actions > Run workflow**.
+
+Mientras `ITCH_GAME` no exista, el job `itch` se omite y GitHub Pages sigue
+funcionando. La API key nunca se escribe en el repositorio: solo vive en los
+Secrets de GitHub. Se usa el CLI oficial de itch.io (descargado de
+`broth.itch.zone`) en lugar de una acción de terceros, para que la API key solo
+la maneje código de itch.io.
 
 ## Entrega en Teams
 
@@ -103,5 +179,7 @@ Comparte:
 
 1. El enlace de GitHub Pages.
 2. El enlace de la página de itch.io.
-3. Una captura del workflow de GitHub Pages ejecutado correctamente.
-4. Si se configura Butler, una captura adicional de su ejecución exitosa.
+3. Una captura del workflow ejecutado correctamente (jobs `deploy` e `itch`).
+4. **Mención de honor:** el archivo
+   [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)
+   para que otros equipos lo usen de modelo.

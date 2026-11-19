@@ -3,756 +3,1161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aventura de Mario: un juego retro de plataformas creado con Phaser 3.">
-  <title>Aventura de Mario | Juego retro</title>
+  <meta name="description" content="Los Guardianes del Inti: El Derrotero Perdido. Un juego de plataformas en Phaser 3 sobre la leyenda del tesoro de los Llanganates.">
+  <title>Los Guardianes del Inti | El Derrotero Perdido</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #14243d;
-      --blue: #1f5685;
-      --sky: #b9e3f2;
-      --yellow: #e2b93f;
-      --red: #c9574d;
-      --cream: #fff9eb;
-      --green: #4f9b5b;
+      --parchment: #f3e6c4;
+      --parchment-dark: #e6d3a3;
+      --ink: #3a2716;
+      --ink-soft: #6b5134;
+      --gold: #d9a42b;
+      --gold-deep: #a8761a;
+      --terracotta: #a8432a;
+      --andes: #2f5d3a;
+      --night: #1b1630;
+      --dusk: #4a2a4f;
+      --display: "Cinzel", Georgia, "Times New Roman", serif;
+      --body: "Lora", Georgia, "Times New Roman", serif;
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       color: var(--ink);
-      background: var(--cream);
-      font-family: "Trebuchet MS", "Arial Black", sans-serif;
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.35), transparent 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(168,118,26,.12), transparent 55%),
+        var(--parchment);
+      font-family: var(--body);
+      font-size: 17px;
+      line-height: 1.65;
     }
 
+    a { color: var(--terracotta); }
+    img, svg { max-width: 100%; }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-inline: 20px;
+    }
+
+    /* ---------- Hero ---------- */
     .hero {
-      min-height: 100vh;
-      padding: 28px 7vw 70px;
-      overflow: hidden;
       position: relative;
-      background: #dbe5ed;
+      min-height: 100vh;
+      color: #fff6df;
+      background: linear-gradient(180deg, var(--night) 0%, var(--dusk) 45%, #b85a35 78%, #e9a24a 100%);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    .hero::after {
-      content: none;
-    }
-
-    .hero-art {
+    .hero-landscape {
       position: absolute;
-      inset: 0;
-      z-index: 0;
+      inset: auto 0 0 0;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      opacity: .88;
-      filter: blur(3px);
-      transform: scale(1.02);
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background: rgba(23, 36, 59, .38);
+      height: 62%;
       pointer-events: none;
     }
 
-    nav, .hero-content, .cloud { position: relative; z-index: 1; }
+    .stars {
+      position: absolute;
+      inset: 0 0 40% 0;
+      background-image:
+        radial-gradient(1.5px 1.5px at 12% 18%, #fff, transparent),
+        radial-gradient(1px 1px at 27% 8%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 44% 22%, #fff, transparent),
+        radial-gradient(1px 1px at 63% 12%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 78% 26%, #fff, transparent),
+        radial-gradient(1px 1px at 91% 9%, #fff, transparent),
+        radial-gradient(1px 1px at 6% 35%, #fff, transparent),
+        radial-gradient(1px 1px at 55% 33%, #fff, transparent);
+      opacity: .7;
+      pointer-events: none;
+    }
 
     nav {
+      position: relative;
+      z-index: 2;
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 20px;
-      max-width: 1100px;
-      margin: 0 auto;
+      justify-content: space-between;
+      gap: 12px 24px;
+      padding-block: 22px;
     }
 
     .brand {
-      color: #000;
-      font-family: "Arial Black", "Trebuchet MS", sans-serif;
-      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      font-family: var(--display);
       font-weight: 900;
-      letter-spacing: -.04em;
-      text-shadow: none;
+      letter-spacing: .06em;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 1.05rem;
     }
 
-    nav a {
-      color: #000;
-      font-family: "Arial Black", "Trebuchet MS", sans-serif;
-      font-size: clamp(.85rem, 1.7vw, 1.05rem);
-      font-weight: 900;
-      letter-spacing: -.03em;
-      text-decoration: none;
-      text-shadow: none;
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
     }
+
+    .nav-links a {
+      color: #fff6df;
+      text-decoration: none;
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: .82rem;
+      letter-spacing: .1em;
+      opacity: .85;
+    }
+
+    .nav-links a:hover { opacity: 1; color: var(--gold); }
 
     .hero-content {
-      max-width: 1100px;
-      margin: 15vh auto 0;
-      padding: 26px 30px 34px;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      padding-block: 30px 34vh;
     }
 
-    .eyebrow {
+    .tag {
       display: inline-block;
-      padding: 7px 14px;
-      color: #fff;
-      background: var(--green);
-      border: 3px solid var(--ink);
-      box-shadow: 5px 5px 0 var(--ink);
-      transform: rotate(-2deg);
+      padding: 4px 14px;
+      border: 1.5px solid currentColor;
+      border-radius: 999px;
+      font-family: var(--display);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
     }
+
+    .hero .tag { color: var(--gold); }
 
     h1 {
-      margin: 24px 0 12px;
-      color: var(--red);
-      font-size: clamp(2.6rem, 9vw, 6.5rem);
-      line-height: .9;
-      text-shadow: 5px 5px 0 var(--yellow), 8px 8px 0 var(--ink);
+      margin: 18px 0 4px;
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(2.4rem, 7.5vw, 5.4rem);
+      line-height: 1;
+      letter-spacing: .02em;
+      color: #ffe9a8;
+      text-shadow: 0 3px 0 var(--gold-deep), 0 10px 30px rgba(0,0,0,.45);
+    }
+
+    .subtitle {
+      margin: 6px 0 22px;
+      font-family: var(--display);
+      font-size: clamp(1rem, 2.6vw, 1.5rem);
+      font-weight: 600;
+      letter-spacing: .3em;
+      color: #f6d58a;
     }
 
     .logline {
-      max-width: 720px;
-      margin: 0 auto 34px;
-      color: #fff;
-      font-size: clamp(1.05rem, 2.4vw, 1.45rem);
-      font-weight: bold;
-      line-height: 1.45;
-      text-shadow: 2px 2px 0 rgba(10, 20, 50, .95);
+      max-width: 760px;
+      margin: 0 auto 30px;
+      font-size: clamp(1.02rem, 2.1vw, 1.22rem);
+      font-style: italic;
+      color: #fff2d6;
+      text-shadow: 0 2px 8px rgba(0,0,0,.5);
     }
 
-    .button {
-      display: inline-block;
-      padding: 18px 54px;
-      color: #fff;
-      background: var(--red);
-      border: 4px solid var(--ink);
-      border-radius: 10px;
-      box-shadow: 7px 7px 0 var(--ink);
-      font-size: 1.5rem;
+    .play-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 56px;
+      border: 3px solid #fff1c2;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #f2c14e, var(--gold-deep));
+      color: var(--night);
+      font-family: var(--display);
+      font-size: clamp(1.3rem, 3.4vw, 2rem);
       font-weight: 900;
+      letter-spacing: .12em;
       text-decoration: none;
+      box-shadow: 0 8px 0 #6e4a0d, 0 18px 40px rgba(0,0,0,.45);
       transition: transform .15s, box-shadow .15s;
+      animation: glow 2.6s ease-in-out infinite;
     }
 
-    .game-area {
-      padding: 70px 7vw;
-      background: var(--cream);
+    .play-button:hover,
+    .play-button:focus-visible {
+      transform: translateY(4px);
+      box-shadow: 0 4px 0 #6e4a0d, 0 12px 30px rgba(0,0,0,.45);
     }
 
-    .game-layout {
-      display: block;
-      max-width: 1050px;
-      margin: 0 auto;
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 210, 90, 0)); }
+      50% { filter: drop-shadow(0 0 18px rgba(255, 210, 90, .65)); }
     }
 
-    .game-frame {
-      overflow: hidden;
-      width: 100%;
-      background: #17243b;
-      border: 5px solid var(--ink);
-      border-radius: 12px;
-      box-shadow: 9px 9px 0 var(--yellow);
+    .countdown {
+      margin-top: 22px;
+      font-size: .95rem;
+      color: #fff2d6;
+      opacity: .9;
     }
 
-    #game-container {
-      width: 100%;
-      display: grid;
-      place-items: center;
+    .countdown strong { color: var(--gold); font-family: var(--display); }
+
+    /* ---------- Secciones ---------- */
+    section { padding-block: 84px; }
+
+    .section-head { margin-bottom: 34px; }
+
+    .section-head .tag { color: var(--terracotta); }
+
+    h2 {
+      margin: 14px 0 10px;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      line-height: 1.15;
+      color: var(--ink);
     }
 
-    #game-container canvas {
-      display: block;
-      width: 100% !important;
-      max-width: none;
-      height: auto !important;
+    h3 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.12rem;
+      letter-spacing: .02em;
+      margin: 0 0 8px;
     }
 
-    .instructions {
-      padding: 24px;
-      background: #fff;
-      border: 3px solid var(--ink);
-      box-shadow: 7px 7px 0 var(--red);
-    }
-
-    .instructions h2 {
-      margin-top: 0;
-      color: var(--blue);
-    }
-
-    .instructions li {
-      margin: 14px 0;
-      line-height: 1.4;
-    }
-
-    .button:hover, .button:focus-visible {
-      transform: translate(3px, 3px);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .cloud {
-      position: absolute;
-      width: 110px;
-      height: 38px;
-      border-radius: 50px;
-      background: #fff;
-      opacity: .8;
-      display: none;
-    }
-
-    .cloud::before, .cloud::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      border-radius: 50%;
-      background: #fff;
-    }
-
-    .cloud::before { left: 18px; width: 52px; height: 52px; }
-    .cloud::after { right: 15px; width: 42px; height: 42px; }
-    .cloud-one { top: 24%; left: 8%; }
-    .cloud-two { top: 38%; right: 9%; transform: scale(.7); }
-
-    section {
-      padding: 78px 7vw;
-    }
-
-    .section-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      margin-top: 0;
-      color: var(--blue);
-      font-size: clamp(1.8rem, 4vw, 3rem);
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
+    .lead { max-width: 760px; color: var(--ink-soft); font-size: 1.08rem; }
 
     .card {
+      background: #fbf3dc;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
       padding: 24px;
-      background: #fff;
-      border: 3px solid var(--ink);
-      box-shadow: 7px 7px 0 var(--yellow);
+      box-shadow: 6px 6px 0 var(--parchment-dark);
     }
 
-    .card h3 { margin-top: 0; color: var(--red); }
-    .card p { line-height: 1.55; }
-
-    .cast {
-      background: #e8eef0;
-    }
-
-    .cast-intro {
-      max-width: 720px;
-      line-height: 1.6;
-    }
-
-    .story {
-      color: #fff;
-      background: var(--ink);
-    }
-
-    .story-grid {
+    .grid-2, .grid-3 {
       display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 42px;
-      align-items: center;
+      gap: 22px;
     }
 
-    .story h2, .story h3 { color: var(--yellow); }
-    .story p { line-height: 1.75; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
+    .grid-2 > *, .grid-3 > * { min-width: 0; }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
 
-    .story-card {
-      padding: 32px;
-      background: linear-gradient(145deg, #294765, #17243b);
-      border: 3px solid var(--yellow);
-      box-shadow: 9px 9px 0 var(--red);
+    .divider {
+      height: 18px;
+      background:
+        linear-gradient(135deg, var(--terracotta) 25%, transparent 25%) -9px 0 / 18px 18px,
+        linear-gradient(225deg, var(--terracotta) 25%, transparent 25%) -9px 0 / 18px 18px,
+        linear-gradient(315deg, var(--andes) 25%, transparent 25%) 0 0 / 18px 18px,
+        linear-gradient(45deg, var(--andes) 25%, transparent 25%) 0 0 / 18px 18px;
+      opacity: .85;
     }
 
-    .story-card strong {
+    /* Leyenda */
+    .logline-card {
+      margin-bottom: 26px;
+      padding: 28px 30px;
+      border-left: 8px solid var(--gold);
+      background: #fff8e4;
+      border-radius: 10px;
+      font-size: 1.15rem;
+      font-style: italic;
+      box-shadow: 6px 6px 0 var(--parchment-dark);
+    }
+
+    .logline-card span {
       display: block;
-      margin-bottom: 12px;
-      color: #fff;
-      font-size: 1.2rem;
+      margin-bottom: 6px;
+      font-family: var(--display);
+      font-style: normal;
+      font-weight: 800;
+      font-size: .78rem;
+      letter-spacing: .16em;
+      color: var(--terracotta);
     }
 
-    .lineup-art {
+    .label {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-family: var(--display);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      color: #fff;
+    }
+
+    .label.real { background: var(--andes); }
+    .label.ficcion { background: var(--terracotta); }
+
+    .table-scroll { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      min-width: 620px;
+      border-collapse: collapse;
+      background: #fbf3dc;
+      border: 2px solid var(--ink);
+    }
+
+    th, td {
+      padding: 13px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--parchment-dark);
+    }
+
+    th {
+      background: var(--ink);
+      color: var(--parchment);
+      font-family: var(--display);
+      font-size: .82rem;
+      letter-spacing: .08em;
+    }
+
+    .resonance-note {
+      margin-top: 26px;
+      padding: 22px 26px;
+      color: #fff6df;
+      background: var(--andes);
+      border-radius: 10px;
+    }
+
+    .resonance-note strong { color: #ffe9a8; }
+
+    /* Ruta */
+    .route {
+      position: relative;
+      display: grid;
+      gap: 18px;
+      margin: 0;
+      padding: 0 0 0 46px;
+      list-style: none;
+    }
+
+    .route::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 17px;
+      border-left: 3px dashed var(--terracotta);
+    }
+
+    .stop {
+      position: relative;
+      padding: 18px 22px;
+      background: #fbf3dc;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+    }
+
+    .stop::before {
+      content: attr(data-n);
+      position: absolute;
+      top: 16px;
+      left: -46px;
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: var(--gold);
+      font-family: var(--display);
+      font-weight: 900;
+    }
+
+    .stop.final::before { background: var(--terracotta); color: #fff; }
+
+    .stop header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 4px 14px;
+    }
+
+    .stop h3 { margin: 0; }
+
+    .status {
+      font-size: .78rem;
+      font-family: var(--display);
+      font-weight: 800;
+      letter-spacing: .1em;
+      color: var(--ink-soft);
+    }
+
+    .status.live { color: var(--andes); }
+
+    .stop p { margin: 8px 0 0; }
+    .stop .clue { color: var(--ink-soft); font-style: italic; }
+
+    /* Guardianes */
+    .guardians { background: var(--parchment-dark); }
+
+    .hero-card {
+      text-align: center;
+      background: #fbf3dc;
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      padding: 26px 20px;
+    }
+
+    .hero-card .city {
+      display: block;
+      margin-bottom: 8px;
+      font-family: var(--display);
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      color: var(--terracotta);
+    }
+
+    .hero-card p { margin: 0 0 10px; font-size: .97rem; }
+
+    .portrait {
       display: block;
       width: 100%;
-      max-height: 330px;
-      object-fit: cover;
-      object-position: center;
-      border: 3px solid var(--ink);
-      border-radius: 12px;
-      background: #fff;
-      box-shadow: 9px 9px 0 var(--yellow);
-    }
-
-    .world {
-      background: #edf1ef;
-    }
-
-    .world-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .world-card {
-      min-height: 190px;
-      padding: 25px;
-      border: 3px solid var(--ink);
-      background: #fff;
-    }
-
-    .world-card:nth-child(1) { box-shadow: 7px 7px 0 var(--green); }
-    .world-card:nth-child(2) { box-shadow: 7px 7px 0 var(--yellow); }
-    .world-card:nth-child(3) { box-shadow: 7px 7px 0 var(--red); }
-    .world-card h3 { margin-top: 0; color: var(--blue); }
-    .world-card p { line-height: 1.5; }
-
-    .final-cta {
-      color: #fff;
-      text-align: center;
-      background: linear-gradient(135deg, #a85d52, #743f46);
-    }
-
-    .final-cta .section-title { color: #fff; }
-    .final-cta .button { background: var(--yellow); color: var(--ink); }
-
-    .cast-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-
-    .character {
-      position: relative;
-      min-height: 310px;
-      padding: 22px 18px;
-      overflow: hidden;
-      text-align: center;
-      background: #fff;
-      border: 3px solid var(--ink);
-      box-shadow: 7px 7px 0 var(--blue);
-    }
-
-    .character h3 {
-      margin: 18px 0 8px;
-      color: var(--red);
-    }
-
-    .character p {
-      margin: 0;
-      font-size: .95rem;
-      line-height: 1.45;
-    }
-
-    .avatar {
-      position: relative;
-      width: 118px;
-      height: 142px;
-      margin: 0 auto;
-    }
-
-    .character-image {
-      display: block;
-      width: 150px;
-      height: 150px;
-      margin: -4px auto 0;
+      max-width: 220px;
+      aspect-ratio: 5 / 6;
+      margin: 0 auto 16px;
       object-fit: contain;
-      object-position: center;
-      border: 0;
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      box-shadow: 5px 5px 0 var(--gold);
     }
 
-    .avatar .head {
-      position: absolute;
-      top: 20px;
-      left: 31px;
-      width: 56px;
-      height: 58px;
-      border: 3px solid var(--ink);
-      border-radius: 45% 45% 42% 42%;
-      background: #e6a477;
-      z-index: 2;
+    .hero-card.lead-hero .portrait { box-shadow: 5px 5px 0 var(--terracotta); }
+
+    .villain .portrait {
+      width: 180px;
+      margin: 0;
+      box-shadow: 5px 5px 0 #f2a07b;
     }
 
-    .avatar .head::before,
-    .avatar .head::after {
-      content: "";
-      position: absolute;
-      top: 25px;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+    .skill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
       background: var(--ink);
+      color: var(--parchment);
+      font-size: .84rem;
     }
 
-    .avatar .head::before { left: 15px; }
-    .avatar .head::after { right: 15px; }
-
-    .avatar .hat {
-      position: absolute;
-      top: 5px;
-      left: 20px;
-      width: 78px;
-      height: 25px;
-      border: 3px solid var(--ink);
-      border-radius: 50% 50% 10% 10%;
-      background: var(--red);
-      z-index: 3;
+    .villain {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 28px;
+      color: #f3e6c4;
+      background: var(--night);
+      border: 2px solid var(--ink);
+      border-radius: 12px;
     }
 
-    .avatar .body {
-      position: absolute;
-      top: 74px;
-      left: 25px;
-      width: 68px;
-      height: 61px;
-      border: 3px solid var(--ink);
-      border-radius: 18px 18px 8px 8px;
-      background: var(--blue);
+    .villain h3 { color: #f2a07b; font-size: 1.35rem; }
+    .villain p { margin: 0 0 10px; }
+
+    /* Características */
+    .feature h3 { color: var(--terracotta); }
+    .feature .icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
     }
 
-    .avatar .body::before,
-    .avatar .body::after {
-      content: "";
-      position: absolute;
-      bottom: -12px;
-      width: 20px;
-      height: 15px;
-      border: 3px solid var(--ink);
+    kbd {
+      display: inline-block;
+      min-width: 32px;
+      padding: 3px 9px;
+      border: 2px solid var(--ink);
+      border-bottom-width: 4px;
+      border-radius: 6px;
+      background: #fff8e4;
+      font-family: var(--display);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .control {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: #fbf3dc;
+      border: 2px dashed var(--ink-soft);
+      border-radius: 10px;
+    }
+
+    /* Legal */
+    .legal { color: #f3e6c4; background: var(--ink); }
+    .legal h2 { color: #ffe9a8; }
+    .legal .section-head .tag { color: var(--gold); }
+    .legal .lead { color: #e6d3a3; }
+
+    .rating {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 26px;
+      margin-bottom: 40px;
+      background: #2a1c10;
+      border: 2px solid var(--gold);
+      border-radius: 12px;
+    }
+
+    .rating-badge {
+      display: grid;
+      place-items: center;
+      width: 96px;
+      height: 120px;
+      background: var(--gold);
+      color: var(--ink);
+      border: 4px solid #fff1c2;
+      border-radius: 14px;
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: 3.6rem;
+      line-height: 1;
+    }
+
+    .rating-badge small {
+      display: block;
+      font-size: .58rem;
+      letter-spacing: .1em;
+      text-align: center;
+    }
+
+    .rating h3 { color: var(--gold); font-size: 1.3rem; }
+    .rating p { margin: 0; }
+
+    .legal table {
+      background: #2a1c10;
+      border-color: var(--gold);
+      color: #f3e6c4;
+    }
+
+    .legal th { background: var(--gold); color: var(--ink); }
+    .legal td { border-bottom-color: #4b3520; }
+    .legal a { color: #ffd27a; }
+
+    .ethics {
+      margin-top: 34px;
+      padding: 22px 26px;
+      border: 1.5px dashed var(--gold);
+      border-radius: 10px;
+    }
+
+    .ethics h3 { color: var(--gold); }
+    .ethics ul { margin: 0; padding-left: 20px; }
+
+    /* Hogar indie + CI/CD */
+    .platform-choice {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 18px 0 8px;
+    }
+
+    .platform {
+      flex: 1 1 200px;
+      padding: 16px 18px;
+      background: #fbf3dc;
+      border: 2px solid var(--parchment-dark);
+      border-radius: 10px;
+      color: var(--ink-soft);
+    }
+
+    .platform.chosen {
+      border-color: var(--andes);
+      box-shadow: 5px 5px 0 var(--andes);
+      color: var(--ink);
+    }
+
+    .platform strong {
+      display: block;
+      font-family: var(--display);
+      color: var(--ink);
+    }
+
+    .link-button {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 12px 22px;
+      border: 2px solid var(--ink);
       border-radius: 8px;
-      background: #633b20;
-    }
-
-    .avatar .body::before { left: 8px; }
-    .avatar .body::after { right: 8px; }
-
-    .avatar.green .hat { background: #2da65a; }
-    .avatar.green .body { background: #42a947; }
-    .avatar.princess .hat { background: #d85bb5; }
-    .avatar.princess .body { background: #f3a5d6; }
-    .avatar.princess .head { background: #f0bd91; }
-    .avatar.rival .hat { background: #6b3f9e; }
-    .avatar.rival .body { background: #3a315e; }
-    .avatar.hero::after,
-    .avatar.green::after,
-    .avatar.princess::after,
-    .avatar.rival::after,
-    .avatar.mushroom::after {
-      content: "";
-      position: absolute;
-      top: 44px;
-      left: 52px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--ink);
-      z-index: 4;
-    }
-
-    .avatar.creature {
-      filter: hue-rotate(35deg);
-    }
-
-    .avatar.creature .hat {
-      top: 21px;
-      left: 12px;
-      width: 94px;
-      height: 42px;
-      border-radius: 60% 60% 35% 35%;
-      background: #5bbd45;
-      transform: rotate(-8deg);
-    }
-
-    .avatar.creature .head {
-      top: 29px;
-      left: 28px;
-      width: 68px;
-      height: 58px;
-      background: #80d95d;
-    }
-
-    .avatar.creature .body {
-      top: 78px;
-      left: 24px;
-      width: 72px;
-      height: 56px;
-      border-radius: 50% 50% 15px 15px;
-      background: #f27b35;
-    }
-
-    .avatar.creature .body::before,
-    .avatar.creature .body::after {
-      background: #f5f5f5;
-    }
-
-    .avatar.ghost .hat {
-      top: 20px;
-      left: 19px;
-      width: 80px;
-      height: 75px;
-      border-radius: 50% 50% 35% 35%;
-      background: #f5f5f5;
-    }
-
-    .avatar.ghost .head {
-      top: 37px;
-      left: 35px;
-      width: 16px;
-      height: 10px;
-      border: 0;
-      background: var(--ink);
-      box-shadow: 30px 0 0 var(--ink);
-    }
-
-    .avatar.ghost .head::before,
-    .avatar.ghost .head::after { display: none; }
-
-    .avatar.ghost .body {
-      top: 92px;
-      left: 25px;
-      width: 68px;
-      height: 43px;
-      border: 0;
-      border-radius: 50% 50% 10px 10px;
-      background: #d7ddff;
-    }
-    .avatar.mushroom .hat {
-      top: 0;
-      left: 10px;
-      width: 98px;
-      height: 58px;
-      border-radius: 55% 55% 35% 35%;
-      background:
-        radial-gradient(circle at 30% 35%, #fff 0 9px, transparent 10px),
-        radial-gradient(circle at 70% 30%, #fff 0 8px, transparent 9px),
-        radial-gradient(circle at 50% 68%, #fff 0 7px, transparent 8px),
-        #e5254f;
-    }
-
-    .avatar.mushroom .head {
-      top: 43px;
-      left: 35px;
-      width: 48px;
-      height: 50px;
-      background: #fff1d2;
-    }
-
-    .avatar.mushroom .body {
-      top: 88px;
-      left: 28px;
-      width: 62px;
-      height: 47px;
-      border-radius: 22px 22px 8px 8px;
-      background: #f5f5f5;
-    }
-
-    .avatar.mushroom .body::before,
-    .avatar.mushroom .body::after {
-      background: #8a4c2b;
-    }
-    .avatar.rival .head { background: #7d5039; }
-
-    .legal {
+      background: var(--andes);
       color: #fff;
-      background: var(--ink);
+      font-family: var(--display);
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-decoration: none;
     }
 
-    .legal .section-title { color: var(--yellow); }
-    .legal p { max-width: 800px; line-height: 1.65; }
+    .link-button.pending {
+      background: transparent;
+      color: var(--ink-soft);
+      border-style: dashed;
+      pointer-events: none;
+    }
+
+    .pipeline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 18px 0 22px;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: .82rem;
+    }
+
+    .pipeline span {
+      padding: 8px 14px;
+      background: var(--ink);
+      color: var(--parchment);
+      border-radius: 6px;
+    }
+
+    .pipeline i { font-style: normal; color: var(--terracotta); }
+
+    .code-block {
+      overflow-x: auto;
+      margin: 0;
+      padding: 22px;
+      background: #1e1a14;
+      color: #f0e2bd;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: .86rem;
+      line-height: 1.55;
+    }
+
+    .code-block .k { color: #f2c14e; }
+    .code-block .c { color: #8f9a7a; }
+
+    .code-caption {
+      margin: 0 0 8px;
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: .84rem;
+      letter-spacing: .06em;
+    }
+
+    /* CTA final */
+    .final-cta {
+      text-align: center;
+      color: #fff6df;
+      background: linear-gradient(180deg, var(--dusk), var(--night));
+    }
+
+    .final-cta h2 { color: #ffe9a8; }
+    .final-cta p { max-width: 640px; margin: 0 auto 30px; }
 
     footer {
-      padding: 28px 7vw;
-      color: #fff;
-      background: var(--ink);
+      padding-block: 26px;
       text-align: center;
+      font-size: .9rem;
+      color: #e6d3a3;
+      background: var(--night);
     }
 
-    footer a { color: var(--yellow); }
+    footer a { color: var(--gold); }
 
-    @media (max-width: 720px) {
-      nav a { display: none; }
-      .hero-content { margin-top: 20vh; }
-      .cards { grid-template-columns: 1fr; }
-      .cast-grid { grid-template-columns: repeat(2, 1fr); }
-      .story-grid, .world-grid { grid-template-columns: 1fr; }
-      #game-container { min-height: 0; }
-      section { padding: 54px 7vw; }
+    @media (max-width: 640px) {
+      section { padding-block: 60px; }
+      .hero-content { padding-bottom: 28vh; }
+      .play-button { padding: 18px 34px; }
+      .villain, .rating { grid-template-columns: 1fr; justify-items: center; text-align: center; }
     }
 
-    @media (max-width: 430px) {
-      .cast-grid { grid-template-columns: 1fr; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .play-button { animation: none; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ===================== PORTADA ===================== -->
   <header class="hero">
-    <img class="hero-art" src="./images/reino-personajes.jpg" alt="" aria-hidden="true">
-    <span class="cloud cloud-one" aria-hidden="true"></span>
-    <span class="cloud cloud-two" aria-hidden="true"></span>
-    <nav aria-label="Navegación principal">
-      <div class="brand">★ AVENTURA DE MARIO</div>
-      <a href="#historia">HISTORIA</a>
-      <a href="#personajes">PERSONAJES</a>
-      <a href="taller3/index.html">JUGAR ↓</a>
+    <div class="stars" aria-hidden="true"></div>
+
+    <svg class="hero-landscape" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <!-- Inti: el sol del equinoccio -->
+      <g transform="translate(720 250)">
+        <g fill="#ffd36b" opacity=".55">
+          <polygon points="-8,-150 8,-150 0,-110"/>
+          <polygon points="-8,150 8,150 0,110" transform="rotate(180)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(30)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(60)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(90)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(120)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(150)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(210)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(240)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(270)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(300)"/>
+          <polygon points="-8,-150 8,-150 0,-110" transform="rotate(330)"/>
+        </g>
+        <circle r="96" fill="#f7b844"/>
+        <circle r="96" fill="none" stroke="#ffe9a8" stroke-width="4" stroke-dasharray="10 8"/>
+        <circle r="70" fill="none" stroke="#c9841f" stroke-width="3"/>
+      </g>
+      <!-- Cordilleras -->
+      <path d="M0 360 L130 250 L230 320 L360 190 L470 300 L560 240 L700 330 L820 210 L930 300 L1050 230 L1180 320 L1300 220 L1440 300 L1440 520 L0 520 Z" fill="#6a3b4f" opacity=".85"/>
+      <path d="M360 190 L395 222 L372 218 L352 232 L330 216 Z" fill="#f4e7d0"/>
+      <path d="M820 210 L852 238 L830 236 L812 248 L792 234 Z" fill="#f4e7d0"/>
+      <path d="M1300 220 L1328 246 L1308 244 L1290 254 L1272 242 Z" fill="#f4e7d0"/>
+      <path d="M0 420 L160 330 L300 400 L450 320 L600 410 L760 340 L900 420 L1060 330 L1220 410 L1340 350 L1440 400 L1440 520 L0 520 Z" fill="#3b2a40"/>
+      <path d="M0 470 L200 420 L420 460 L640 410 L860 465 L1080 420 L1300 460 L1440 430 L1440 520 L0 520 Z" fill="#1f2a24"/>
+      <!-- Línea equinoccial -->
+      <line x1="720" y1="350" x2="720" y2="520" stroke="#ffd36b" stroke-width="3" stroke-dasharray="8 8" opacity=".7"/>
+    </svg>
+
+    <nav class="wrap" aria-label="Navegación principal">
+      <a class="brand" href="#">☀ GUARDIANES DEL INTI</a>
+      <div class="nav-links">
+        <a href="#leyenda">LEYENDA</a>
+        <a href="#ruta">RUTA</a>
+        <a href="#guardianes">GUARDIANES</a>
+        <a href="#legal">LEGAL</a>
+        <a href="#hogar">COMUNIDAD</a>
+      </div>
     </nav>
-    <div class="hero-content">
-      <span class="eyebrow">CLASIFICACIÓN E · TODO PÚBLICO</span>
-      <h1>¡SALTA,<br>COLECCIONA<br>Y GANA!</h1>
-      <p class="logline">Mario debe reunir 15 monedas doradas y desbloquear la estrella final antes de que el tiempo se agote.</p>
-      <a class="button" href="taller3/index.html">▶ JUGAR AHORA</a>
+
+    <div class="hero-content wrap">
+      <span class="tag">Una aventura de plataformas por el Ecuador</span>
+      <h1>Los Guardianes<br>del Inti</h1>
+      <p class="subtitle">EL DERROTERO PERDIDO</p>
+      <p class="logline">Cuando la banda del Rey Brumario roba las reliquias sagradas del Ecuador, Roco, un mecánico quiteño, y Alba, la última heredera de los Guardianes del Inti, deben reunir aliados en cada región, descifrar el derrotero secreto de Rumiñahui y recuperar las cuatro llaves del Disco Solar antes de que el sol del equinoccio revele el tesoro de los Llanganates a quien solo quiere venderlo.</p>
+      <a class="play-button" href="taller3/index.html">▶ JUGAR</a>
+      <p class="countdown" id="countdown">El próximo equinoccio se acerca…</p>
     </div>
   </header>
 
+  <div class="divider" aria-hidden="true"></div>
+
   <main>
-    <section class="game-area" id="jugar">
-      <div class="section-inner">
-        <h2 class="section-title">Tu aventura comienza aquí</h2>
-        <div class="game-layout">
-          <div class="game-frame" style="padding: 48px; text-align: center;">
-            <h3 style="color: var(--yellow); margin-top: 0;">¿Listo para ayudar a Mario?</h3>
-            <p style="color: #fff; line-height: 1.6;">Pulsa el botón para abrir el escenario jugable y comenzar la misión.</p>
-            <a class="button" href="taller3/index.html">▶ ABRIR EL JUEGO</a>
-          </div>
+
+    <!-- ===================== MISIÓN 1: EL ALMA ===================== -->
+    <section id="leyenda">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="tag">Misión 1 · El alma del juego</span>
+          <h2>Una leyenda real. Un robo que no lo es.</h2>
+          <p class="lead">El juego parte de una de las leyendas más buscadas de Sudamérica. Cada robo, cada ciudad y cada personaje existe por una razón dentro de esa historia.</p>
         </div>
-      </div>
-    </section>
-    <section id="sobre-el-juego">
-      <div class="section-inner">
-        <h2 class="section-title">El alma del juego</h2>
-        <div class="cards">
+
+        <div class="logline-card">
+          <span>EL HOOK · LOGLINE</span>
+          Cuatro llaves, cuatro regiones y un equinoccio para salvar el tesoro más buscado del Ecuador.
+        </div>
+
+        <div class="grid-2">
           <article class="card">
-            <h3>🎮 Reto clásico</h3>
-            <p>Muévete con A/D o las flechas, salta con W, ↑ o Espacio y recorre un nivel lleno de plataformas.</p>
+            <span class="label real">LO QUE ES REAL</span>
+            <h3>El oro de Rumiñahui</h3>
+            <p>En 1533 los conquistadores ejecutaron a Atahualpa después de cobrar su rescate en oro y plata. Según la leyenda, otra parte del oro que aún iba en camino la escondió el general <strong>Rumiñahui</strong> en las montañas de los <strong>Llanganates</strong>. Décadas después, un español llamado <strong>Valverde</strong>, que según se cuenta se enriqueció con ese oro, dejó escrito un <em>derrotero</em> con el camino al tesoro. Nadie lo ha encontrado jamás.</p>
           </article>
           <article class="card">
-            <h3>🪙 15 monedas</h3>
-            <p>Explora cada rincón y recoge las monedas doradas para desbloquear la estrella final.</p>
+            <span class="label ficcion">LO QUE IMAGINAMOS</span>
+            <h3>Los Guardianes del Inti</h3>
+            <p>El derrotero estaba incompleto a propósito. El camino verdadero se grabó en un <strong>Disco Solar</strong> partido en cuatro llaves, como las cuatro regiones del <strong>Tawantinsuyu</strong>, y cada llave se escondió dentro de un objeto de una fiesta o tradición. Así, <strong>los pueblos protegieron el secreto durante 500 años</strong> solo con conservar su cultura.</p>
           </article>
           <article class="card">
-            <h3>⏱️ Tu mejor tiempo</h3>
-            <p>La cuenta empieza al pulsar JUGAR: supera el nivel tan rápido como puedas y mejora tu marca.</p>
+            <span class="label ficcion">EL CONFLICTO</span>
+            <h3>¿Por qué roban?</h3>
+            <p>El <strong>Rey Brumario</strong>, descendiente del autor del derrotero, sabe que existen cuatro llaves, pero no en qué objeto está cada una. Por eso su banda, <strong>la Bruma</strong>, roba entre humo y niebla las reliquias más importantes de cada región.</p>
+          </article>
+          <article class="card">
+            <span class="label ficcion">LA URGENCIA</span>
+            <h3>¿Por qué hay prisa?</h3>
+            <p>El disco solo revela el camino final bajo el <strong>sol del equinoccio</strong> en la Mitad del Mundo, cuando al mediodía casi no hay sombras. Si Brumario reúne las llaves antes, el tesoro será suyo.</p>
           </article>
         </div>
-        <p><strong>Resonancia ludonarrativa:</strong> cada salto y movimiento representa el avance de Mario por el reino. La búsqueda de monedas y la estrella final convierten la coordinación y los reflejos en una aventura breve y entretenida.</p>
+
+        <div class="section-head" style="margin-top: 60px;">
+          <span class="tag">Resonancia ludonarrativa</span>
+          <h2>Aquí jugar <em>es</em> aprender</h2>
+          <p class="lead">Ninguna mecánica está de adorno: cada acción del jugador significa algo dentro de la historia y le enseña algo del Ecuador.</p>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>Lo que haces</th><th>Lo que significa en la historia</th><th>Lo que aprendes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Recoger los 15 <strong>fragmentos del derrotero</strong></td><td>Reconstruir el mapa que alguien quiso borrar</td><td>Cada fragmento guarda un dato real de la ciudad</td></tr>
+              <tr><td>Conseguir la <strong>llave</strong> al final del nivel</td><td>Recuperar lo que robó la Bruma</td><td>Por qué esa reliquia importa a su comunidad</td></tr>
+              <tr><td>Correr contra la <strong>cuenta regresiva</strong></td><td>El equinoccio se acerca</td><td>Qué ocurre en la línea ecuatorial durante el equinoccio</td></tr>
+              <tr><td>Sumar <strong>aliados</strong></td><td>Cada región defiende su propio patrimonio</td><td>La diversidad del Ecuador: Sierra, páramo, pueblo cañari y Amazonía</td></tr>
+              <tr><td>Reunir <strong>cuatro llaves</strong> de cuatro regiones</td><td>El Disco Solar imita al Tawantinsuyu</td><td>Cómo se organizaba el mundo andino</td></tr>
+              <tr><td>Combinar <strong>habilidades</strong> en el final</td><td>Ninguna comunidad sola habría salvado el tesoro</td><td>El patrimonio se protege entre todos</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="resonance-note"><strong>¿Cómo hacemos que aprender sea divertido y no un castigo?</strong> El conocimiento no es un examen al final del nivel: es la herramienta para avanzar. Lino abre caminos ocultos <em>porque</em> entiende los símbolos cañaris, y Milo cruza la selva <em>porque</em> la conoce. Saber más del Ecuador es, literalmente, lo que te hace más fuerte.</p>
       </div>
     </section>
 
-    <section class="story" id="historia">
-      <div class="section-inner">
-        <div class="story-grid">
-          <div>
-            <p class="eyebrow">LA HISTORIA</p>
-            <h2 class="section-title">Cuando la estrella desaparece, comienza la aventura.</h2>
-            <p>En un reino construido entre nubes, bloques y caminos secretos, la estrella que protege la energía del mundo ha desaparecido. Las monedas doradas quedaron dispersas por el valle y el tiempo corre en su contra.</p>
-            <p>Roco deberá atravesar cada plataforma, dominar sus saltos y demostrar que un héroe no avanza por tener el camino fácil, sino por atreverse a dar el siguiente paso.</p>
-          </div>
-          <div class="story-card">
-            <strong>Tu misión</strong>
-            <p>Reúne las 15 monedas, supera los obstáculos y recupera la estrella antes de que el reino pierda su brillo.</p>
-            <p><em>Salta. Explora. No mires atrás.</em></p>
-            <img class="lineup-art" src="./images/reino-personajes.jpg" alt="Elenco de personajes originales del reino">
-          </div>
+    <!-- ===================== LA RUTA ===================== -->
+    <section id="ruta" style="padding-top: 0;">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="tag">La ruta del derrotero</span>
+          <h2>Cada llave señala la siguiente ciudad</h2>
+          <p class="lead">El jugador no elige el camino: lo descubre. Al pulsar JUGAR aparece el <strong>mapa del Ecuador</strong> con la Costa, la Sierra y la Amazonía; cada ciudad es un nivel con su aliado, y la llave recuperada en cada capítulo trae grabada la pista que abre el siguiente.</p>
         </div>
+
+        <ol class="route">
+          <li class="stop" data-n="0">
+            <header><h3>Quito: el prólogo</h3><span class="status live">● JUGABLE</span></header>
+            <p>La Bruma roba la máscara solar del museo. Roco, el mecánico que restaura sus mecanismos, vio el robo. Alba le revela el secreto de los Guardianes y juntos persiguen a los ladrones por las calles de Quito.</p>
+            <p class="clue">Pista: «busca a la reina que baila de negro».</p>
+          </li>
+          <li class="stop" data-n="1">
+            <header><h3>Latacunga y el páramo del Cotopaxi</h3><span class="status live">● JUGABLE</span></header>
+            <p>Desaparece un adorno del traje de la Mama Negra. Brin, el zorro del páramo, siguió a la Bruma por su territorio y guía al equipo.</p>
+            <p class="clue">Pista: dentro del adorno aparece un símbolo cañari.</p>
+          </li>
+          <li class="stop" data-n="2">
+            <header><h3>Cuenca: Pumapungo</h3><span class="status live">● JUGABLE</span></header>
+            <p>Lino descifra los símbolos y descubre que el Disco Solar es un mapa y una máquina. <strong>Giro:</strong> Brumario les tiende una trampa, secuestra a Alba y se lleva las tres llaves, porque solo una guardiana puede leer el disco.</p>
+            <p class="clue">Pista: «donde nace el sol, el río baja verde».</p>
+          </li>
+          <li class="stop" data-n="3">
+            <header><h3>Amazonía: Tena</h3><span class="status live">● JUGABLE</span></header>
+            <p>La Bruma saca reliquias del país por el río. Con Milo, el guardián del bosque, el equipo recupera la cuarta llave, la única que Brumario no tiene. Ahora él los necesita a ellos.</p>
+            <p class="clue">Pista: el disco completo apunta a la Mitad del Mundo.</p>
+          </li>
+          <li class="stop final" data-n="★">
+            <header><h3>Mitad del Mundo → Llanganates</h3><span class="status live">● GRAN FINAL JUGABLE</span></header>
+            <p>Bajo el sol del equinoccio aparece el camino verdadero. En la niebla de los Llanganates, Nuba deja pasar solo a quienes vienen a proteger el tesoro. El equipo rescata a Alba y deja el oro donde Rumiñahui lo escondió. Ahora <strong>todos son Guardianes del Inti</strong>.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <section class="cast" id="personajes">
-      <div class="section-inner">
-        <h2 class="section-title">El reino y sus protagonistas</h2>
-        <p class="cast-intro">En este reino original, cada personaje tiene una razón para correr, saltar y perseguir la estrella. Sus diseños fueron creados desde cero para esta aventura.</p>
-        <div class="cast-grid">
-          <article class="character">
-            <img class="character-image" src="./images/roco-mario.jpg" alt="Roco, el héroe">
-            <h3>Roco, el héroe</h3>
-            <p>Un corredor incansable que protege las monedas doradas del reino.</p>
+    <!-- ===================== GUARDIANES ===================== -->
+    <section class="guardians" id="guardianes">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="tag">Los guardianes</span>
+          <h2>Nadie se une por casualidad</h2>
+          <p class="lead">Cada aliado entra a la historia por dos razones: la Bruma le robó a <em>su</em> región y aporta una habilidad sin la cual el equipo no puede llegar a la siguiente llave.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="hero-card lead-hero">
+            <img class="portrait" src="./images/roco-mario.jpg" alt="Roco, el mecánico, sosteniendo sus herramientas" loading="lazy">
+            <h3>Roco, el mecánico</h3>
+            <span class="city">QUITO · PROTAGONISTA</span>
+            <p>Restaura los mecanismos antiguos del museo y vio a la Bruma robar la máscara solar. El Disco Solar es una máquina, y solo él puede repararlo y hacerlo girar.</p>
+            <span class="skill">🔧 Repara y activa mecanismos</span>
           </article>
-          <article class="character">
-            <img class="character-image" src="./images/lino-explorador.jpg" alt="Lino, el compañero">
-            <h3>Lino, el compañero</h3>
-            <p>El explorador veloz que conoce los caminos secretos del nivel.</p>
-          </article>
-          <article class="character">
-            <img class="character-image" src="./images/princesa-alba.jpg" alt="Princesa Alba">
+          <article class="hero-card lead-hero">
+            <img class="portrait" src="./images/princesa-alba.jpg" alt="Princesa Alba con la Vara del Inti" loading="lazy">
             <h3>Princesa Alba</h3>
-            <p>La guardiana de la estrella y memoria viva de la aventura.</p>
+            <span class="city">QUITO · LA ÚLTIMA GUARDIANA</span>
+            <p>Heredera de los Guardianes del Inti, a quienes llamaban <em>ñustas</em>. Es la única que sabe leer el Disco Solar, y por eso Brumario la persigue.</p>
+            <span class="skill">⭐ La Vara del Inti detecta fragmentos</span>
           </article>
-          <article class="character">
-            <img class="character-image" src="./images/rey-brumario.jpg" alt="Rey Brumario">
-            <h3>Rey Brumario</h3>
-            <p>El rival que esconde los tesoros y desafía tus reflejos.</p>
+          <article class="hero-card">
+            <img class="portrait" src="./images/brin-zorro.jpg" alt="Brin, el zorro del páramo, con su bufanda" loading="lazy">
+            <h3>Brin, el zorro</h3>
+            <span class="city">LATACUNGA · PÁRAMO DEL COTOPAXI</span>
+            <p>La Bruma cruzó su páramo y él la siguió de cerca. Nadie conoce mejor los caminos entre la nieve y el pajonal.</p>
+            <span class="skill">🦊 Salto doble y trepar</span>
           </article>
-          <article class="character">
-            <img class="character-image" src="./images/milo-hongo.jpg" alt="Milo, el guardián">
-            <h3>Milo, el guardián</h3>
-            <p>Un pequeño aliado que conoce dónde aparecen las monedas y protege la estrella.</p>
+          <article class="hero-card">
+            <img class="portrait" src="./images/lino-explorador.jpg" alt="Lino, el explorador, leyendo un mapa" loading="lazy">
+            <h3>Lino, el explorador</h3>
+            <span class="city">CUENCA · PUMAPUNGO</span>
+            <p>Cartógrafo que estudia las ruinas desde hace años. La Bruma le robó la piedra tallada que investigaba.</p>
+            <span class="skill">🗺️ Descifra símbolos y revela caminos ocultos</span>
           </article>
-          <article class="character">
-            <img class="character-image" src="./images/brin-zorro.jpg" alt="Brin, la criatura">
-            <h3>Brin, la criatura</h3>
-            <p>Un compañero alegre que acompaña a los héroes por las rutas difíciles.</p>
+          <article class="hero-card">
+            <img class="portrait" src="./images/milo-guardian.jpg" alt="Milo, el guardián del bosque, saludando" loading="lazy">
+            <h3>Milo, el guardián del bosque</h3>
+            <span class="city">AMAZONÍA · TENA</span>
+            <p>La Bruma usa los ríos de su selva para sacar reliquias del país. Sabe dónde crece cada cosa y dónde se esconde cada camino.</p>
+            <span class="skill">🍄 Hace crecer plataformas de hongos</span>
           </article>
-          <article class="character">
-            <img class="character-image" src="./images/nuba-espectro.jpg" alt="Nuba, el espectro">
-            <h3>Nuba, el espectro</h3>
-            <p>Una presencia traviesa que protege los secretos del reino.</p>
+          <article class="hero-card">
+            <img class="portrait" src="./images/nuba-espectro.jpg" alt="Nuba, el espíritu de las nubes" loading="lazy">
+            <h3>Nuba, el espíritu de las nubes</h3>
+            <span class="city">LLANGANATES</span>
+            <p>Lleva 500 años cubriendo la montaña de niebla para que nadie encuentre el tesoro. Por eso al principio parece un enemigo.</p>
+            <span class="skill">☁️ Disipa la bruma y crea nubes-plataforma</span>
           </article>
+        </div>
+
+        <div class="villain">
+          <img class="portrait" src="./images/rey-brumario-solo.jpg" alt="Rey Brumario, con antifaz y traje morado" loading="lazy">
+          <div>
+            <span class="city" style="color: #f2a07b; font-family: var(--display); font-weight: 800; letter-spacing: .14em; font-size: .74rem;">EL VILLANO</span>
+            <h3>Rey Brumario y la Bruma</h3>
+            <p>«Rey Brumario» es el apodo de <strong>Augusto Valverde</strong>, el rey del mercado negro de antigüedades y descendiente del autor del derrotero. Su familia pasó generaciones buscando el oro y terminó arruinada y ridiculizada. Quiere demostrar que tenían razón, quedarse con el tesoro y vender las reliquias en el extranjero.</p>
+            <p>Su banda, <strong>la Bruma</strong>, roba siempre envuelta en humo y niebla artificial. Es lo contrario de Nuba: la Bruma esconde para robar, y Nuba esconde para proteger.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="world" id="mundo">
-      <div class="section-inner">
-        <h2 class="section-title">Un reino hecho para explorar</h2>
-        <div class="world-grid">
-          <article class="world-card">
-            <h3>⛰️ El valle de las nubes</h3>
-            <p>Un paisaje luminoso donde cada plataforma es una oportunidad para avanzar.</p>
+    <!-- ===================== CARACTERÍSTICAS ===================== -->
+    <section id="caracteristicas">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="tag">Características</span>
+          <h2>Qué te espera en el juego</h2>
+        </div>
+        <div class="grid-3">
+          <article class="card feature">
+            <span class="icon" aria-hidden="true">📜</span>
+            <h3>Reconstruye el derrotero</h3>
+            <p>Explora cada nivel y reúne los 15 fragmentos para obtener la llave del Disco Solar. Cada fragmento revela un dato real de Quito.</p>
           </article>
-          <article class="world-card">
-            <h3>🧱 El corredor de bloques</h3>
-            <p>Obstáculos suspendidos que exigen medir cada salto y confiar en tus reflejos.</p>
+          <article class="card feature">
+            <span class="icon" aria-hidden="true">⏳</span>
+            <h3>Carrera contra el sol</h3>
+            <p>Una cuenta regresiva marca el tiempo antes de que la Bruma escape. Si llega a cero, pierdes la llave.</p>
           </article>
-          <article class="world-card">
-            <h3>⭐ La estrella perdida</h3>
-            <p>La recompensa final que solo aparece cuando todas las monedas han sido reunidas.</p>
+          <article class="card feature">
+            <span class="icon" aria-hidden="true">🏔️</span>
+            <h3>Plataformas clásicas</h3>
+            <p>Saltos precisos entre bloques y caminos elevados, con física arcade hecha en Phaser 3.</p>
           </article>
+          <article class="card feature">
+            <span class="icon" aria-hidden="true">🇪🇨</span>
+            <h3>Un mapa del Ecuador</h3>
+            <p>Recorre la ruta Quito → Latacunga → Cuenca → Tena → Mitad del Mundo → Llanganates. Cada capítulo se desbloquea con la pista de la llave anterior y guarda tus estrellas.</p>
+          </article>
+          <article class="card feature">
+            <span class="icon" aria-hidden="true">🤝</span>
+            <h3>Un equipo que crece</h3>
+            <p>Alba señala los fragmentos, Brin da el salto doble, Lino revela piedras ocultas, Milo hace crecer hongos-trampolín y Nuba disipa la niebla. Pero cuidado: en Cuenca, Brumario se lleva a Alba.</p>
+          </article>
+          <article class="card feature">
+            <span class="icon" aria-hidden="true">🌐</span>
+            <h3>Cinco capítulos en el navegador</h3>
+            <p>75 fragmentos con datos reales del Ecuador, sin instalar nada: juega en tu computadora desde la web o en itch.io.</p>
+          </article>
+        </div>
+
+        <div class="controls" aria-label="Controles">
+          <div class="control"><kbd>A</kbd><kbd>D</kbd> o <kbd>←</kbd><kbd>→</kbd> moverse</div>
+          <div class="control"><kbd>W</kbd> <kbd>↑</kbd> o <kbd>Espacio</kbd> saltar</div>
+          <div class="control">🖱️ Clic en los botones de la pantalla</div>
         </div>
       </div>
     </section>
 
+    <!-- ===================== MISIÓN 2: LEGAL Y ÉTICO ===================== -->
     <section class="legal" id="legal">
-      <div class="section-inner">
-        <h2 class="section-title">⚖️ Muro de honor</h2>
-        <p><strong>Clasificación E (Todo Público):</strong> apto para cualquier persona con ganas de jugar. Contiene saltos pixelados, plataformas y recolección de monedas doradas.</p>
-        <p>Los personajes, gráficos vectoriales y la lógica del juego fueron diseñados mediante código propio. Son personajes originales inspirados en la aventura clásica de plataformas; no se utilizan nombres, sprites ni assets oficiales de franquicias externas. El proyecto utiliza <strong>Phaser 3</strong>, una librería de código abierto distribuida bajo licencia MIT.</p>
+      <div class="wrap">
+        <div class="section-head">
+          <span class="tag">Misión 2 · Las reglas del mundo real</span>
+          <h2>Clasificación, créditos y ética</h2>
+          <p class="lead">Todo juego necesita un marco legal. Este es el nuestro.</p>
+        </div>
+
+        <div class="rating">
+          <div class="rating-badge" role="img" aria-label="Clasificación creativa: Todo público, equivalente a E y PEGI 3">
+            <div>☀<small>TODO<br>PÚBLICO</small></div>
+          </div>
+          <div>
+            <h3>Clasificación creativa: equivalente a E (ESRB) · PEGI 3</h3>
+            <p>Apto para cualquier explorador o exploradora con ganas de saltar. Contiene una banda de ladrones que huye entre nubes de humo, saltos vertiginosos a los pies de los volcanes, un zorro con bufanda y una cantidad peligrosa de datos curiosos sobre el Ecuador. Sin violencia gráfica: aquí nadie gana derrotando a otros, sino llegando primero.</p>
+            <p style="margin-top: 10px; font-size: .88rem; opacity: .8;">Clasificación autoevaluada con los criterios de ESRB y PEGI; no es una certificación oficial. Al publicar en tiendas se puede obtener una clasificación oficial gratuita mediante el cuestionario de IARC.</p>
+          </div>
+        </div>
+
+        <h3 style="color: var(--gold); font-size: 1.3rem;">⚖️ Muro de honor</h3>
+        <p>Créditos de todo lo que hace posible este juego, con su licencia.</p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>Recurso</th><th>Autor</th><th>Licencia</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Concepto, narrativa, diseño y programación</td><td>Evelin Ximena Rocha Rocha</td><td>Obra propia, proyecto académico</td></tr>
+              <tr><td>Nombres, historia y personalidad de los personajes</td><td>Evelin Ximena Rocha Rocha</td><td>Obra propia</td></tr>
+              <tr><td>Retratos de los personajes en esta página</td><td>Generados con IA (Google Gemini) a partir de indicaciones de la autora</td><td>Uso académico no comercial, según los términos de Google. Los retratos de Roco, Alba y Milo tienen un estilo inspirado en personajes de Nintendo (Mario, Peach y Toad), cuyos derechos pertenecen a Nintendo; son bocetos provisionales y se reemplazarán por diseños propios antes de cualquier uso comercial</td></tr>
+              <tr><td>Gráficos del juego (Roco con chullo y poncho, bloques, fragmentos, llave, paisaje)</td><td>Dibujados con código mediante Phaser Graphics</td><td>Obra propia</td></tr>
+              <tr><td>Datos culturales de los fragmentos</td><td>Recopilados de fuentes públicas sobre la historia de Quito</td><td>Hechos históricos (no protegidos por derechos de autor)</td></tr>
+              <tr><td>Ilustraciones de esta página (sol y cordillera)</td><td>SVG y CSS hechos a mano</td><td>Obra propia</td></tr>
+              <tr><td>Motor del juego: <a href="https://phaser.io/" target="_blank" rel="noopener">Phaser 3</a></td><td>Phaser Studio Inc. / Photon Storm</td><td>MIT</td></tr>
+              <tr><td>Empaquetador: <a href="https://vite.dev/" target="_blank" rel="noopener">Vite</a></td><td>Evan You y colaboradores</td><td>MIT</td></tr>
+              <tr><td>Tipografía <a href="https://fonts.google.com/specimen/Cinzel" target="_blank" rel="noopener">Cinzel</a></td><td>Natanael Gama</td><td>SIL Open Font License 1.1</td></tr>
+              <tr><td>Tipografía <a href="https://fonts.google.com/specimen/Lora" target="_blank" rel="noopener">Lora</a></td><td>Cyreal</td><td>SIL Open Font License 1.1</td></tr>
+              <tr><td>Música y efectos de sonido</td><td>Aún no se incluyen</td><td>Si se añaden (por ejemplo, recursos CC0), se acreditarán aquí con su autor, fuente y licencia</td></tr>
+              <tr><td>Leyenda de los Llanganates y derrotero de Valverde</td><td>Tradición oral e historia del Ecuador</td><td>Dominio público. Se usan como inspiración</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="ethics">
+          <h3>Responsabilidad social y cultural</h3>
+          <ul>
+            <li><strong>Real:</strong> la leyenda de los Llanganates, el derrotero de Valverde, el Tawantinsuyu, la Mama Negra y Pumapungo. <strong>Ficción:</strong> los Guardianes del Inti, el Disco Solar, el Rey Brumario y todos los personajes.</li>
+            <li>Las fiestas y culturas se muestran con respeto, como algo vivo que se protege, y nunca como un botín.</li>
+            <li>El juego aborda un problema real, el tráfico ilícito de bienes patrimoniales, con un mensaje claro: <strong>el patrimonio pertenece a sus pueblos</strong>.</li>
+            <li>Los nombres, la historia y la personalidad de los personajes fueron creados para este proyecto. Reconocemos que algunos retratos provisionales se parecen a personajes con derechos de terceros, y por eso los marcamos como bocetos en el Muro de honor.</li>
+            <li>El uso de IA para generar ilustraciones se declara de forma transparente.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
+    <!-- ===================== MISIÓN 4 + LEGENDARIA ===================== -->
+    <section id="hogar">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="tag">Misión 4 · Nuestro hogar indie</span>
+          <h2>Dónde vive la comunidad del juego</h2>
+          <p class="lead">Comparamos tres plataformas y elegimos <strong>itch.io</strong> porque admite juegos HTML5 que se juegan directamente en el navegador, es gratuita y permite publicar automáticamente con su herramienta <strong>Butler</strong>.</p>
+        </div>
+
+        <div class="platform-choice">
+          <div class="platform chosen"><strong>✔ itch.io</strong>El paraíso indie y del HTML5. Elegida.</div>
+          <div class="platform"><strong>Game Jolt</strong>Ideal para comunidades y fandoms.</div>
+          <div class="platform"><strong>Newgrounds</strong>El portal clásico de juegos web.</div>
+        </div>
+
+        <p>En itch.io el juego se publica como proyecto <strong>HTML5</strong> («This file will be played in the browser»), con una versión preparada solo para la plataforma: <code>npm run build:itch</code> genera <code>dist-itch/</code> con el <code>index.html</code> en la raíz, como exige itch.io.</p>
+
+        <a class="link-button" id="itch-link" href="https://everocha11.itch.io/los-guardianes-del-inti" target="_blank" rel="noopener">🎮 Juega en itch.io</a>
+        <p style="font-size: .95rem; color: var(--ink-soft);">Estudio indie: <a href="https://everocha11.itch.io/" target="_blank" rel="noopener">EveRocha11 en itch.io</a></p>
+
+        <div class="section-head" style="margin-top: 64px;">
+          <span class="tag">Misión legendaria · CI/CD</span>
+          <h2>La fábrica automática</h2>
+          <p class="lead">No subimos nada a mano. Cada <code>push</code> a <code>main</code> despierta a un robot de GitHub Actions que construye el juego y lo publica a la vez en GitHub Pages y en itch.io.</p>
+        </div>
+
+        <div class="pipeline" aria-label="Flujo de publicación">
+          <span>git push</span><i>→</i>
+          <span>npm ci</span><i>→</i>
+          <span>npm run build</span><i>→</i>
+          <span>GitHub Pages</span><i>+</i>
+          <span>npm run build:itch</span><i>→</i>
+          <span>itch.io (Butler)</span>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <p class="code-caption">✔ JOB 1 · GitHub Pages (landing + juego)</p>
+<pre class="code-block"><span class="c"># .github/workflows/deploy-pages.yml</span>
+<span class="k">on:</span>
+  <span class="k">push:</span>
+    <span class="k">branches:</span> [main]
+<span class="k">jobs:</span>
+  <span class="k">build:</span>
+    <span class="k">runs-on:</span> ubuntu-latest
+    <span class="k">steps:</span>
+      - <span class="k">uses:</span> actions/checkout@v4
+      - <span class="k">uses:</span> actions/setup-node@v4
+        <span class="k">with:</span> { node-version: 22, cache: npm }
+      - <span class="k">uses:</span> actions/configure-pages@v5
+      - <span class="k">run:</span> npm ci
+      - <span class="k">run:</span> npm run build
+      - <span class="k">uses:</span> actions/upload-pages-artifact@v3
+        <span class="k">with:</span> { path: dist }
+  <span class="k">deploy:</span>
+    <span class="k">needs:</span> build
+    <span class="k">environment:</span> github-pages
+    <span class="k">steps:</span>
+      - <span class="k">uses:</span> actions/deploy-pages@v4</pre>
+          </div>
+          <div>
+            <p class="code-caption">✔ JOB 2 · itch.io con Butler (CLI oficial)</p>
+<pre class="code-block"><span class="c"># Secret   BUTLER_API_KEY (nunca en el código)</span>
+<span class="c"># Variable ITCH_GAME = usuario/juego</span>
+  <span class="k">itch:</span>
+    <span class="k">if:</span> ${{ vars.ITCH_GAME != '' }}
+    <span class="k">env:</span>
+      <span class="k">BUTLER_API_KEY:</span> ${{ secrets.BUTLER_API_KEY }}
+      <span class="k">ITCH_GAME:</span> ${{ vars.ITCH_GAME }}
+    <span class="k">steps:</span>
+      - <span class="k">run:</span> npm ci
+      - <span class="k">run:</span> npm run build:itch
+      - <span class="k">name:</span> Install Butler
+        <span class="k">run:</span> curl -fsSL -o butler.zip \
+          https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          &amp;&amp; unzip butler.zip -d ~/butler
+      - <span class="k">name:</span> Push to itch.io
+        <span class="k">run:</span> ~/butler/butler push dist-itch \
+          "$ITCH_GAME:html5"</pre>
+            <p style="font-size: .95rem; color: var(--ink-soft);">Usamos el CLI oficial de itch.io en lugar de una acción de terceros para que la API key solo la vea código de itch.io. Resultado: en unos 2 minutos cada cambio queda publicado en el mundo sin abrir la plataforma.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA FINAL ===================== -->
     <section class="final-cta">
-      <div class="section-inner">
-        <h2 class="section-title">El reino te está esperando</h2>
-        <p>¿Tienes lo necesario para reunir las monedas y recuperar la estrella?</p>
-        <a class="button" href="taller3/index.html">▶ ENTRAR AL REINO</a>
+      <div class="wrap">
+        <span class="tag" style="color: var(--gold);">Misión 3 · El escaparate</span>
+        <h2>El sol no espera</h2>
+        <p>La Bruma escapa por los tejados de Quito con la máscara solar. ¿Ayudarás a Roco a recuperar la primera llave antes de que se acabe el tiempo?</p>
+        <a class="play-button" href="taller3/index.html">▶ JUGAR AHORA</a>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>Publicado como proyecto académico de Juegos Interactivos · Juego creado con Phaser 3</p>
+    <div class="wrap">
+      <p>Los Guardianes del Inti: El Derrotero Perdido · Proyecto académico de Juegos Interactivos (GR1) · Hecho con Phaser 3 y publicado con GitHub Pages</p>
+    </div>
   </footer>
+
+  <script>
+    // Días que faltan para el próximo equinoccio (20 de marzo o 22 de septiembre).
+    (function () {
+      const el = document.getElementById('countdown');
+      if (!el) return;
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const anio = hoy.getFullYear();
+      const candidatos = [
+        new Date(anio, 2, 20), new Date(anio, 8, 22),
+        new Date(anio + 1, 2, 20)
+      ];
+      const proximo = candidatos.find((fecha) => fecha >= hoy);
+      const dias = Math.round((proximo - hoy) / 86400000);
+      const nombre = proximo.getMonth() === 2 ? 'marzo' : 'septiembre';
+      el.innerHTML = dias === 0
+        ? '<strong>¡Hoy es el equinoccio!</strong> El sol está sobre la Mitad del Mundo.'
+        : `Faltan <strong>${dias} días</strong> para el equinoccio de ${nombre}. La Bruma ya está en marcha.`;
+    })();
+  </script>
 </body>
 </html>

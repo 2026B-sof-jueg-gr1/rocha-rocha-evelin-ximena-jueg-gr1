@@ -1,11 +1,12 @@
 {
-  "name": "aventura-tesoros-mama-negra",
+  "name": "los-guardianes-del-inti",
   "version": "1.0.0",
   "private": true,
   "description": "Videojuego 2D de plataformas creado con Phaser 3.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:itch": "vite build --config vite.itch.config.js",
     "preview": "vite preview"
   },
   "dependencies": {

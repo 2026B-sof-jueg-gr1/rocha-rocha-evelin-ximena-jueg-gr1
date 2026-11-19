@@ -1,4 +1,4 @@
-name: Deploy landing and game to GitHub Pages
+name: Deploy landing and game (GitHub Pages + itch.io)
 
 on:
   push:
@@ -15,6 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # 1) Landing + juego -> GitHub Pages
   build:
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +25,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Configure GitHub Pages
@@ -51,3 +52,49 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # 2) Solo el juego -> itch.io con Butler (CLI oficial de itch.io)
+  # Requiere en GitHub (Settings > Secrets and variables > Actions):
+  #   - Secret   BUTLER_API_KEY : API key de https://itch.io/user/settings/api-keys
+  #   - Variable ITCH_GAME      : everocha11/los-guardianes-del-inti
+  # Si la variable ITCH_GAME no existe, este job se omite y Pages sigue funcionando.
+  itch:
+    if: ${{ vars.ITCH_GAME != '' }}
+    runs-on: ubuntu-latest
+    env:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      ITCH_GAME: ${{ vars.ITCH_GAME }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build game for itch.io
+        run: npm run build:itch
+
+      - name: Check API key
+        run: |
+          if [ -z "$BUTLER_API_KEY" ]; then
+            echo "::error::Falta el secret BUTLER_API_KEY"
+            exit 1
+          fi
+
+      - name: Install Butler
+        run: |
+          curl -fsSL -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip -d "$HOME/butler"
+          chmod +x "$HOME/butler/butler"
+          "$HOME/butler/butler" -V
+
+      - name: Push to itch.io
+        run: |
+          "$HOME/butler/butler" push dist-itch "$ITCH_GAME:html5" \
+            --userversion "${GITHUB_SHA::7}"
