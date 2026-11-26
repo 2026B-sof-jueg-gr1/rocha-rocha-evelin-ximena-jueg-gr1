@@ -8,6 +8,7 @@
 //   4. Llave     -> la recompensa al reunirlos              (recompensa)
 //   5. Pista     -> la frase grabada que abre el siguiente capítulo (pista)
 //
+// Bruma: tramos de suelo [xMin, xMax] que patrulla cada agente de la Bruma.
 // Bloques: [x, bordeSuperior, tipo]. Tipos: 'bloque' (por defecto), 'oculto'
 // (símbolos cañaris que Lino revela), 'hongo' (trampolín de Milo) y 'nube'
 // (plataforma de Nuba). Fragmentos: [x, y].
@@ -80,6 +81,7 @@ export const NIVELES = [
     recompensa: 'SEGUNDA LLAVE DEL DISCO SOLAR',
     pista: 'Dentro del adorno aparece un símbolo cañari',
     tiempo: 90,
+    bruma: [[950, 1300]],
     mapa: { x: 440, y: 292, aliadoDx: -48 },
     tema: {
       suelo: 0x6b5a3a, sueloBorde: 0x3b3122, sueloDetalle: 0x8f7a4f, cesped: 0xb9a24a,
@@ -130,6 +132,7 @@ export const NIVELES = [
     giro: '¡Era una trampa! El Rey Brumario secuestra a Alba y se lleva las tres llaves, porque solo una guardiana puede leer el disco.',
     pista: 'Donde nace el sol, el río baja verde',
     tiempo: 95,
+    bruma: [[700, 1050], [1450, 1850]],
     mapa: { x: 420, y: 402, aliadoDx: 48 },
     tema: {
       suelo: 0x6e6a5e, sueloBorde: 0x3a3830, sueloDetalle: 0x9a9480,
@@ -181,6 +184,7 @@ export const NIVELES = [
     recompensa: 'CUARTA LLAVE DEL DISCO SOLAR',
     pista: 'El disco completo apunta a la Mitad del Mundo',
     tiempo: 95,
+    bruma: [[780, 1080], [1950, 2350]],
     mapa: { x: 650, y: 265, aliadoDx: 48 },
     tema: {
       suelo: 0x4a3426, sueloBorde: 0x2a1d15, sueloDetalle: 0x6b4a33, cesped: 0x3e8b3e,
@@ -234,6 +238,7 @@ export const NIVELES = [
     pista: null,
     tiempo: 100,
     niebla: true,
+    bruma: [[900, 1250], [1650, 2050]],
     mapa: { x: 560, y: 340, aliadoDx: 50 },
     tema: {
       suelo: 0x3f4756, sueloBorde: 0x22262f, sueloDetalle: 0x5d6676, cesped: 0x6f8f6f,

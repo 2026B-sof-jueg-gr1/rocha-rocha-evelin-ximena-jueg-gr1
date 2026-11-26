@@ -6,6 +6,8 @@ import { EscenaMapa } from './escenas/EscenaMapa.js';
 import { EscenaCarga } from './escenas/EscenaCarga.js';
 import { EscenaNivel } from './escenas/EscenaNivel.js';
 import { EscenaResultado } from './escenas/EscenaResultado.js';
+import { EscenaPausa } from './escenas/EscenaPausa.js';
+import { EscenaGaleria } from './escenas/EscenaGaleria.js';
 
 const juego = new Phaser.Game({
   type: Phaser.AUTO,
@@ -20,7 +22,8 @@ const juego = new Phaser.Game({
     default: 'arcade',
     arcade: { gravity: { y: 900 }, debug: false }
   },
-  scene: [EscenaInicio, EscenaMapa, EscenaCarga, EscenaNivel, EscenaResultado]
+  input: { activePointers: 3 },
+  scene: [EscenaInicio, EscenaMapa, EscenaCarga, EscenaNivel, EscenaResultado, EscenaPausa, EscenaGaleria]
 });
 
 if (import.meta.env.DEV) window.juego = juego;

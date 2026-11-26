@@ -45,9 +45,10 @@ export class EscenaCarga extends Phaser.Scene {
       .setOrigin(0.5);
 
     // Controles y habilidades activas.
-    const lineas = ['Moverse: A/D o flechas   ·   Saltar: W, ↑ o Espacio   ·   ESC: volver al mapa'];
+    const lineas = ['Moverse: A/D o flechas  ·  Saltar: W, ↑ o Espacio  ·  Pausa: Esc o P  ·  Sonido: M'];
     if (hab.dobleSalto) lineas.push('Salto doble (Brin): pulsa saltar otra vez en el aire.');
     if (hab.hongos) lineas.push('Hongos de Milo: cae sobre ellos para rebotar muy alto.');
+    if (nivel.bruma?.length) lineas.push(`¡Cuidado! ${nivel.bruma.length === 1 ? 'Un agente' : `${nivel.bruma.length} agentes`} de la Bruma patrulla${nivel.bruma.length === 1 ? '' : 'n'}: si te tocan, roban 5 s.`);
     if (nivel.nota) lineas.push(nivel.nota);
     lineas.push(`Meta: reúne los ${nivel.fragmentos.length} fragmentos del derrotero en ${nivel.tiempo} segundos.`);
     this.add.text(400, 448, lineas.join('\n'), con(ESTILO.texto, { fontSize: '14px', color: '#ffdf76', align: 'center', lineSpacing: 4 }))

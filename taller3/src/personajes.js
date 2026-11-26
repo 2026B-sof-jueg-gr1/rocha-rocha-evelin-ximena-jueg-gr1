@@ -139,6 +139,18 @@ const DIBUJOS = {
   }
 };
 
+// Agente de la Bruma: ladrón encapuchado que deja una estela de humo.
+DIBUJOS.agente = (p) => {
+  p.elip(8, 50, 16, 10, 0x9a8fb5, 0.55).elip(2, 42, 10, 8, 0x9a8fb5, 0.4)
+    .poli([[18, 20], [30, 2], [42, 20], [44, 50], [16, 50]], 0x5b2a86)
+    .circ(30, 22, 9, 0x3b2457)
+    .rect(23, 19, 14, 5, 0x20172b)
+    .rect(25, 20, 3, 2, 0xf2a07b).rect(32, 20, 3, 2, 0xf2a07b)
+    .rect(20, 36, 20, 3, 0xf2b52b)
+    .elip(44, 40, 12, 12, 0xcbb999)
+    .rect(22, 50, 6, 8, 0x2a1c3a).rect(32, 50, 6, 8, 0x2a1c3a);
+};
+
 export function dibujarPersonaje(g, id, cx, base, escala = 1) {
   const dibujo = DIBUJOS[id];
   if (!dibujo) return;

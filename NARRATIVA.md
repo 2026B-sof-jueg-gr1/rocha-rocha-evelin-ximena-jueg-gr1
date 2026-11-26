@@ -121,13 +121,13 @@ Cada aliado se une por dos razones:
 
 | Personaje | Imagen | Región | Por qué se une | Habilidad |
 |---|---|---|---|---|
-| **Roco**, el mecánico | `images/roco-mario.jpg` | Quito | Vio el robo en el museo donde trabaja | Reparar y activar mecanismos antiguos con sus herramientas |
-| **Princesa Alba**, la guardiana | `images/princesa-alba.jpg` | Quito | Es la heredera del secreto; el robo la obliga a revelarlo | La Vara del Inti detecta fragmentos del derrotero |
-| **Brin**, el zorro del páramo | `images/brin-zorro.jpg` | Latacunga (páramo del Cotopaxi) | La Bruma atravesó su páramo y él la siguió de cerca | Agilidad: salto doble y trepar |
-| **Lino**, el explorador | `images/lino-explorador.jpg` | Cuenca (Pumapungo) | Cartógrafo que estudia las ruinas desde hace años; le robaron su piedra más importante | Leer mapas y descifrar símbolos que revelan caminos ocultos |
-| **Milo**, el guardián del bosque | `images/milo-guardian.jpg` | Amazonía (Tena) | La Bruma usa los ríos de su selva para sacar reliquias del país | Conoce la selva: hace crecer plataformas de hongos |
-| **Nuba**, el espíritu de las nubes | `images/nuba-espectro.jpg` | Llanganates | Ha escondido el tesoro bajo la niebla durante 500 años | Disipa la bruma y crea plataformas de nube |
-| **Rey Brumario**, el villano | `images/rey-brumario-solo.jpg` | — | Quiere el oro para limpiar el nombre de su familia y venderlo | Esconde sus robos entre humo y niebla |
+| **Roco**, el mecánico | `images/personajes/roco.png` | Quito | Vio el robo en el museo donde trabaja | Reparar y activar mecanismos antiguos con sus herramientas |
+| **Princesa Alba**, la guardiana | `images/personajes/alba.png` | Quito | Es la heredera del secreto; el robo la obliga a revelarlo | La Vara del Inti detecta fragmentos del derrotero |
+| **Brin**, el zorro del páramo | `images/personajes/brin.png` | Latacunga (páramo del Cotopaxi) | La Bruma atravesó su páramo y él la siguió de cerca | Agilidad: salto doble |
+| **Lino**, el explorador | `images/personajes/lino.png` | Cuenca (Pumapungo) | Cartógrafo que estudia las ruinas desde hace años; le robaron su piedra más importante | Leer mapas y descifrar símbolos que revelan caminos ocultos |
+| **Milo**, el guardián del bosque | `images/personajes/milo.png` | Amazonía (Tena) | La Bruma usa los ríos de su selva para sacar reliquias del país | Conoce la selva: hace crecer plataformas de hongos |
+| **Nuba**, el espíritu de las nubes | `images/personajes/nuba.png` | Llanganates | Ha escondido el tesoro bajo la niebla durante 500 años | Disipa la bruma y crea plataformas de nube |
+| **Rey Brumario**, el villano | `images/personajes/brumario.png` | — | Quiere el oro para limpiar el nombre de su familia y venderlo | Esconde sus robos entre humo y niebla |
 
 **Por qué Nuba es traviesa:** cada vez que alguien se acerca al tesoro, Nuba
 cubre la montaña de niebla para que se pierda. Por eso nadie lo ha encontrado
@@ -245,10 +245,12 @@ cada llave es la que abre el siguiente camino**. El mapa guarda las estrellas
 
 ### Próximos pasos
 
-1. Reemplazar los retratos provisionales de la landing de Roco, Alba y Milo
-   por diseños propios con identidad andina, como los del juego.
-2. Añadir controles táctiles para jugar en el celular.
-3. Música y efectos con licencia CC0, acreditados en el Muro de honor.
+Ya implementado: agentes de la Bruma que roban tiempo, menú de pausa, controles
+táctiles, música y efectos sintetizados (obra propia), galería de los 75 datos y
+retratos propios en la landing. El diseño completo está en [GDD.md](./GDD.md).
+
+1. Animaciones por fotogramas para caminar y saltar.
+2. Tabla de récords por capítulo.
 
 ---
 

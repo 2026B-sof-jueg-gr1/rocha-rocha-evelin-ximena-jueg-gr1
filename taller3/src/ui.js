@@ -1,5 +1,6 @@
 // Estilos de texto, botones e iconos compartidos por todas las escenas.
 import Phaser from 'phaser';
+import { iniciarAudio, efecto, alternarSilencio, estaSilenciado } from './audio.js';
 
 export const COLOR = {
   tinta: 0x3a2716,
@@ -49,8 +50,30 @@ export function crearBoton(scene, x, y, texto, accion, opciones = {}) {
   fondo.setInteractive({ useHandCursor: true })
     .on('pointerover', () => fondo.setFillStyle(claro))
     .on('pointerout', () => fondo.setFillStyle(color))
-    .on('pointerup', () => accion());
+    .on('pointerup', () => {
+      iniciarAudio();
+      efecto('boton');
+      accion();
+    });
   return boton;
+}
+
+// Botón de sonido (también responde a la tecla M).
+export function crearBotonSonido(scene, x, y, profundidad = 30) {
+  const fondo = scene.add.circle(x, y, 17, 0x1b1630, 0.85).setStrokeStyle(2, COLOR.oroBrillante)
+    .setScrollFactor(0).setDepth(profundidad);
+  const icono = scene.add.text(x, y, '', con(ESTILO.boton, { fontSize: '16px', strokeThickness: 0 }))
+    .setOrigin(0.5).setScrollFactor(0).setDepth(profundidad + 1);
+  const pintar = () => icono.setText(estaSilenciado() ? '✕' : '♪').setColor(estaSilenciado() ? '#f2a07b' : '#ffd21f');
+  const alternar = () => {
+    iniciarAudio();
+    alternarSilencio();
+    pintar();
+  };
+  pintar();
+  fondo.setInteractive({ useHandCursor: true }).on('pointerup', alternar);
+  scene.input.keyboard.on('keydown-M', alternar);
+  return fondo;
 }
 
 export function crearTexturasBase(scene) {

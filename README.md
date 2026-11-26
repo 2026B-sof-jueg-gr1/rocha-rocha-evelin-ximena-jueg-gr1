@@ -2,7 +2,8 @@
 
 Videojuego de plataformas creado con Phaser 3, inspirado en la leyenda del
 tesoro de los Llanganates. La narrativa completa (personajes, ruta, actos y
-justificación de cada elemento) está en [NARRATIVA.md](./NARRATIVA.md).
+justificación de cada elemento) está en [NARRATIVA.md](./NARRATIVA.md), y el
+Game Design Document oficial del proyecto, en [GDD.md](./GDD.md).
 
 ## Misión 1: El alma del juego
 

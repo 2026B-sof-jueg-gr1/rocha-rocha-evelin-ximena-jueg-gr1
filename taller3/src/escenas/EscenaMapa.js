@@ -10,8 +10,9 @@ import {
 } from '../datos/progreso.js';
 import { dibujarPersonaje } from '../personajes.js';
 import {
-  COLOR, ESTILO, con, crearBoton, crearTexturasBase, dibujarEstrellas
+  COLOR, ESTILO, con, crearBoton, crearBotonSonido, crearTexturasBase, dibujarEstrellas
 } from '../ui.js';
+import { iniciarAudio, musica } from '../audio.js';
 
 const ANCHO_PANEL = 250;
 
@@ -51,6 +52,10 @@ export class EscenaMapa extends Phaser.Scene {
     this.input.keyboard.on('keydown-LEFT', () => this.seleccionar((this.seleccion + NIVELES.length - 1) % NIVELES.length));
     this.input.keyboard.on('keydown-ENTER', () => this.jugar(this.seleccion));
     this.input.keyboard.on('keydown-SPACE', () => this.jugar(this.seleccion));
+    this.input.keyboard.on('keydown-G', () => this.scene.start('Galeria', { region: this.seleccion }));
+
+    iniciarAudio();
+    musica('mapa');
   }
 
   dibujarMar() {
@@ -241,10 +246,13 @@ export class EscenaMapa extends Phaser.Scene {
   crearPanelFijo() {
     this.add.rectangle(ANCHO_PANEL / 2, 300, ANCHO_PANEL, 600, COLOR.pergamino).setStrokeStyle(4, COLOR.tinta);
     this.add.rectangle(ANCHO_PANEL / 2, 22, ANCHO_PANEL - 4, 40, COLOR.tinta);
-    this.add.text(ANCHO_PANEL / 2, 22, 'MAPA DEL DERROTERO', con(ESTILO.franja, { color: '#ffe9a8' })).setOrigin(0.5);
+    this.add.text(104, 22, 'MAPA DEL DERROTERO', con(ESTILO.franja, { color: '#ffe9a8', fontSize: '13px', letterSpacing: 1 })).setOrigin(0.5);
+    crearBotonSonido(this, 228, 22);
 
-    crearBoton(this, 66, 572, 'INICIO', () => this.scene.start('Inicio'), { ancho: 108, alto: 34, tamano: '14px', color: COLOR.tintaSuave });
-    crearBoton(this, 184, 572, 'BORRAR', () => this.borrarProgreso(), { ancho: 108, alto: 34, tamano: '14px', color: COLOR.tintaSuave });
+    const pequeno = { ancho: 74, alto: 34, tamano: '13px', color: COLOR.tintaSuave };
+    crearBoton(this, 45, 572, 'INICIO', () => this.scene.start('Inicio'), pequeno);
+    crearBoton(this, 125, 572, 'DATOS', () => this.scene.start('Galeria', { region: this.seleccion }), pequeno);
+    crearBoton(this, 205, 572, 'BORRAR', () => this.borrarProgreso(), pequeno);
   }
 
   seleccionar(i) {

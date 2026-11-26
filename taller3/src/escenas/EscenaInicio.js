@@ -1,6 +1,7 @@
 // Escenario 1: portada del juego. Lleva al mapa del Ecuador.
 import Phaser from 'phaser';
-import { ESTILO, con, crearBoton, crearTexturasBase, dibujarSol } from '../ui.js';
+import { ESTILO, con, crearBoton, crearBotonSonido, crearTexturasBase, dibujarSol } from '../ui.js';
+import { iniciarAudio } from '../audio.js';
 import { cargarProgreso, progresoDePrueba } from '../datos/progreso.js';
 
 export class EscenaInicio extends Phaser.Scene {
@@ -55,11 +56,14 @@ export class EscenaInicio extends Phaser.Scene {
     crearBoton(this, 400, 305, empezado ? 'CONTINUAR AVENTURA' : 'COMENZAR AVENTURA', () => this.irAlMapa(), { ancho: 320, alto: 62 });
     this.add.text(400, 350, 'Pulsa ENTER o haz clic', con(ESTILO.texto, { fontSize: '13px', color: '#ffdf76' })).setOrigin(0.5);
 
+    crearBotonSonido(this, 770, 74);
+
     this.input.keyboard.once('keydown-ENTER', () => this.irAlMapa());
     this.input.keyboard.once('keydown-SPACE', () => this.irAlMapa());
   }
 
   irAlMapa() {
+    iniciarAudio();
     this.scene.start('Mapa');
   }
 
